@@ -33,7 +33,7 @@ export class ImagenesServiceService {
     this.httpOption = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('acces_token')
+        Authorization: 'Bearer ' + localStorage.getItem('access_token')
       })
     };
 
@@ -48,8 +48,7 @@ export class ImagenesServiceService {
     this.httpOption = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Access-Control-Allow-Origin':'*',
-        Authorization: 'Bearer ' + localStorage.getItem('acces_token')
+        Authorization: 'Bearer ' + localStorage.getItem('access_token')
       })
     };
 

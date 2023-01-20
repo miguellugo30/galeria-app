@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-import { ImagenesServiceService } from 'src/app/services/imagenes-service.service';
-
+import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-galeria-component',
   templateUrl: './galeria-component.component.html',
@@ -8,18 +6,10 @@ import { ImagenesServiceService } from 'src/app/services/imagenes-service.servic
 })
 export class GaleriaComponentComponent {
 
-  imagenes: any;
+  @Input() imagenesList: any;
 
-  constructor (  private ImageServices : ImagenesServiceService ) {}
+  constructor ( ) {}
 
-  ngOnInit(): void {
-    this.getAllImages();
-  }
-
-  getAllImages(){
-    this.ImageServices.getImagenes().subscribe((data)=> {
-      this.imagenes = data;
-    });
-  }
+  ngOnInit(): void {  }
 
 }

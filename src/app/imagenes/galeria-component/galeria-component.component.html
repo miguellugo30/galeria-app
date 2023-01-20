@@ -1,7 +1,8 @@
 
 <div id="carouselExample" class="carousel slide">
   <div class="carousel-inner">
-    <div *ngFor=" let item of imagenes" class="carousel-item active">
+    <div *ngFor=" let item of imagenesList; first as isFirst"  [ngClass]="{ 'active': isFirst } " class="carousel-item">
+      <h4 class="text-center">{{item.name}}</h4>
       <img [src]="item.base64" class="d-block w-100" [alt]="item.name">
     </div>
 

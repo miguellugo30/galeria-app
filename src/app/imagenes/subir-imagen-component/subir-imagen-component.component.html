@@ -5,7 +5,7 @@
       type="text"
       class="form-control"
       formControlName="nombre"
-      [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }"
+      [ngClass]="{ 'is-invalid': submitted }"
       >
       <div *ngIf="submitted" class="invalid-feedback">
         <div>Nombre de imagen es requerido</div>
@@ -17,7 +17,7 @@
       type="file"
       class="form-control"
       (change)="selectFile($event)"
-      [ngClass]="{ 'is-invalid': submitted  && f['image'].errors }"
+      [ngClass]="{ 'is-invalid': submitted }"
       >
       <div *ngIf="submitted" class="invalid-feedback">
         <div>Imagen es requerido</div>
@@ -26,3 +26,4 @@
   <button type="submit" class="btn btn-primary">Subir Imagen</button>
 </form>
 <br>
+<app-galeria-component [imagenesList]="imagenes"></app-galeria-component>

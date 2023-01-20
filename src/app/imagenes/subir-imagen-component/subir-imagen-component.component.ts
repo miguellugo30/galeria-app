@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ImagenesServiceService } from 'src/app/services/imagenes-service.service';
-
 @Component({
   selector: 'app-subir-imagen-component',
   templateUrl: './subir-imagen-component.component.html',
@@ -9,50 +8,62 @@ import { ImagenesServiceService } from 'src/app/services/imagenes-service.servic
 })
 export class SubirImagenComponentComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({
+  public form: FormGroup = new FormGroup({
                                   nombre: new FormControl(''),
                                   image: new FormControl(''),
                                 });
-  submitted: boolean = false;
-  imageURL: string = '';
+  public submitted: boolean = false;
+  public imageURL: string = '';
+  public imagenes: any ;
 
+  public constructor ( private formBuilder: FormBuilder, private ImageServices : ImagenesServiceService ) {}
 
-  constructor ( private formBuilder: FormBuilder, private ImageServices : ImagenesServiceService ) {}
+  public ngOnInit(): void {
+    this.ImageServices.login().subscribe();
+    this.getAllImages();
 
-  ngOnInit(): void {
     this.form = this.formBuilder.group({
       nombre: ['', Validators.required],
-      image:  ['']
+      image:  ['', Validators.required],
+      type: ['']
     });
   }
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.form.controls;
-  }
+  public onSubmit() {
 
-  onSubmit() {
-
+    if ( this.form.invalid ) {
       this.submitted = true;
+      return;
+    }
 
-      if ( this.form.invalid ) {
-        return;
-      }
-      this.ImageServices.sendImagen( JSON.stringify( this.form.value, null, 2 ) ).subscribe();
+    this.ImageServices.sendImagen( JSON.stringify( this.form.value, null, 2 ) ).subscribe();
 
-      this.form.reset();
+    this.getAllImages();
+
+    this.form.reset();
   }
 
-  selectFile(event: any){
+  public selectFile(event: any){
 
-   const file = event.target.files[0];
+    const file = event.target.files[0];
 
     var reader = new FileReader();
+
     reader.onload = (e: any) => {
       this.form.patchValue({
-        image: e.target.result
+        image: e.target.result,
+        type : file.type
       });
     }
+
     reader.readAsDataURL(file);
+
+  }
+
+  private getAllImages(){
+    this.ImageServices.getImagenes().subscribe((data)=> {
+      this.imagenes = data;
+    });
   }
 
 }
